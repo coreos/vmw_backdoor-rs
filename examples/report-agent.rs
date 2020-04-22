@@ -1,5 +1,6 @@
 use vmw_backdoor as vmw;
 
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 fn main() {
     let is_vmw = vmw::is_vmware_cpu();
     eprintln!("VMware CPU detected: {}.", is_vmw);
@@ -15,4 +16,9 @@ fn main() {
 
     erpc.report_agent().unwrap();
     eprintln!("Reported agent.");
+}
+
+#[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+fn main() {
+    eprintln!("Unsupported target");
 }

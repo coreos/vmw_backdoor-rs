@@ -1,6 +1,7 @@
 use std::env;
 use vmw_backdoor as vmw;
 
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 fn main() {
     let key = match env::args().collect::<Vec<_>>().get(1) {
         Some(val) => val.clone(),
@@ -26,4 +27,9 @@ fn main() {
         }
         None => panic!("Guestinfo property not found."),
     };
+}
+
+#[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+fn main() {
+    eprintln!("Unsupported target");
 }

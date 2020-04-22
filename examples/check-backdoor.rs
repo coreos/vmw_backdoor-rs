@@ -1,5 +1,6 @@
 use vmw_backdoor as vmw;
 
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 fn main() {
     let is_vmw = vmw::is_vmware_cpu();
     println!("VMware CPU detected: {}.", is_vmw);
@@ -12,4 +13,9 @@ fn main() {
         Err(_) => false,
     };
     println!("VMware backdoor detected: {}.", found);
+}
+
+#[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+fn main() {
+    eprintln!("Unsupported target");
 }
