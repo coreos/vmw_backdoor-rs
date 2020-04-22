@@ -1,6 +1,7 @@
 use std::env;
 use vmw_backdoor as vmw;
 
+#[cfg(all(target_os = "linux", target_arch = "x86_64"))]
 fn main() {
     let msg = match env::args().collect::<Vec<_>>().get(1) {
         Some(val) => val.clone(),
@@ -21,4 +22,9 @@ fn main() {
 
     erpc.log(&msg).unwrap();
     eprintln!("Sent log message: {}.", msg);
+}
+
+#[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
+fn main() {
+    eprintln!("Unsupported target");
 }
