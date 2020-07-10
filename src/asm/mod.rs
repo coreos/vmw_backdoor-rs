@@ -127,14 +127,16 @@ pub(crate) fn hb_out(arg: &HighBandwidthBuf, res: &mut HighBandwidthBuf) {
 
 /// Check whether this is running on VMware virtual CPU.
 ///
-/// Detection:
+/// [Detection]:
 ///  * CPUID leaf 0x1 (ECX) contains the virtualization bit.
 ///  * CPUID leaf 0x4000_0000 (EBX+ECX+EDX) contains the vendor label.
+///
+/// [Detection]: https://kb.vmware.com/s/article/1009458
 pub fn is_vmware_cpu() -> bool {
     use core::arch::x86_64::__cpuid;
 
     let leaf_1 = unsafe { __cpuid(0x0000_0001) };
-    if (leaf_1.ecx & 0x0800_0000) != 0 {
+    if (leaf_1.ecx & 0x8000_0000) != 0 {
         let leaf_vmw = unsafe { __cpuid(0x4000_0000) };
         let mut buf = Vec::with_capacity(12);
         buf.extend_from_slice(&leaf_vmw.ebx.to_le_bytes());
