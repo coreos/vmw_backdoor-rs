@@ -75,7 +75,8 @@ impl BackdoorGuard {
         let level = if acquire { 0b11 } else { 0b00 };
         let err = unsafe { libc::iopl(level) };
         if err != 0 {
-            return Err(format!("iopl failed, errno={}", err).into());
+            let err_code = errno::errno();
+            return Err(format!("iopl failed: {} (errno: {})", err_code, err_code.0).into());
         };
 
         Ok(())
