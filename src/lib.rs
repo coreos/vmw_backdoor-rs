@@ -24,7 +24,7 @@
 //! let is_vmw = vmw_backdoor::is_vmware_cpu();
 //! println!("VMware CPU detected: {}.", is_vmw);
 //!
-//! let mut guard = vmw_backdoor::access_backdoor().unwrap();
+//! let mut guard = vmw_backdoor::access_backdoor_privileged().unwrap();
 //! println!("Raised I/O access to reach backdoor port.");
 //!
 //! let found = guard.probe_vmware_backdoor().unwrap_or(false);
@@ -54,8 +54,11 @@ cfg_if::cfg_if! {
         mod erpc;
         mod low_bw;
 
-        pub use backdoor::{access_backdoor, probe_backdoor, BackdoorGuard};
         pub use asm::is_vmware_cpu;
+        pub use backdoor::{
+            access_backdoor, access_backdoor_privileged, probe_backdoor, probe_backdoor_privileged,
+            BackdoorGuard,
+        };
         pub use erpc::EnhancedChan;
     }
 }
