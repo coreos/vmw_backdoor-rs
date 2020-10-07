@@ -8,7 +8,7 @@ fn main() {
         panic!("Hypervisor not present");
     }
 
-    let mut backdoor = vmw::probe_backdoor().unwrap();
+    let mut backdoor = vmw::probe_backdoor_privileged().unwrap();
     eprintln!("Got backdoor access.");
 
     let mut erpc = backdoor.open_enhanced_chan().unwrap();

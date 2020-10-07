@@ -17,21 +17,45 @@ pub(crate) const COMMAND_ERPC: u32 = 0x1E;
 
 /// Try to acquire access to the backdoor, but do NOT probe its presence.
 ///
-/// On Linux, this requires running with `CAP_SYS_RAWIO` privileges.
-pub fn access_backdoor() -> Result<BackdoorGuard, VmwError> {
+/// On Linux, this tries to change I/O access level via `iopl()`. That requires
+/// running with `CAP_SYS_RAWIO` capability and it is not compatible with
+/// `kernel_lockdown`.
+pub fn access_backdoor_privileged() -> Result<BackdoorGuard, VmwError> {
     BackdoorGuard::change_io_access(true)?;
     Ok(BackdoorGuard {
         release_on_drop: true,
     })
 }
 
+/// Try to acquire access to the backdoor, but do NOT probe its presence.
+///
+/// Wherever possible, use `access_backdoor_privileged()` instead.
+pub fn access_backdoor() -> Result<BackdoorGuard, VmwError> {
+    Ok(BackdoorGuard {
+        release_on_drop: false,
+    })
+}
+
 /// Try to acquire access to the backdoor, and probe its presence.
 ///
-/// On Linux, this requires running with `CAP_SYS_RAWIO` privileges.
-pub fn probe_backdoor() -> Result<BackdoorGuard, VmwError> {
+/// On Linux, this tries to change I/O access level via `iopl()`. That requires
+/// running with `CAP_SYS_RAWIO` capability and it is not compatible with
+/// `kernel_lockdown`.
+pub fn probe_backdoor_privileged() -> Result<BackdoorGuard, VmwError> {
     BackdoorGuard::change_io_access(true)?;
     let mut guard = BackdoorGuard {
         release_on_drop: true,
+    };
+    guard.probe_vmware_backdoor()?;
+    Ok(guard)
+}
+
+/// Try to acquire access to the backdoor, and probe its presence.
+///
+/// Wherever possible, use `probe_backdoor_privileged()` instead.
+pub fn probe_backdoor() -> Result<BackdoorGuard, VmwError> {
+    let mut guard = BackdoorGuard {
+        release_on_drop: false,
     };
     guard.probe_vmware_backdoor()?;
     Ok(guard)
@@ -69,6 +93,7 @@ impl BackdoorGuard {
         EnhancedChan::open(self)
     }
 
+    /// Try to change I/O ports access level.
     pub(crate) fn change_io_access(acquire: bool) -> Result<(), VmwError> {
         // NOTE(lucab): `ioperm()` is not enough here, as the backdoor
         //  protocol uses a dynamic range of I/O ports.
@@ -85,8 +110,10 @@ impl BackdoorGuard {
 
 impl Drop for BackdoorGuard {
     fn drop(&mut self) {
-        if self.release_on_drop && Self::change_io_access(false).is_err() {
-            log::warn!("failed to release backdoor access");
+        if self.release_on_drop {
+            if let Err(e) = Self::change_io_access(false) {
+                log::error!("failed to release backdoor access: {}", e);
+            }
         }
     }
 }
