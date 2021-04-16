@@ -1,8 +1,13 @@
 #![allow(dead_code)]
 
 fn main() {
-    #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
-    asm_x86_64_linux();
+    let target_arch = std::env::var("CARGO_CFG_TARGET_ARCH")
+        .expect("missing $CARGO_CFG_TARGET_ARCH env variable");
+    let target_os =
+        std::env::var("CARGO_CFG_TARGET_OS").expect("missing $CARGO_CFG_TARGET_OS env variable");
+    if target_arch == "x86_64" && target_os == "linux" {
+        asm_x86_64_linux();
+    };
 }
 
 fn asm_x86_64_linux() {
