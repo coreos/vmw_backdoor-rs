@@ -1,6 +1,5 @@
 # vmw\_backdoor
 
-[![Build Status](https://travis-ci.com/lucab/vmw_backdoor-rs.svg?branch=master)](https://travis-ci.com/lucab/vmw_backdoor-rs)
 [![crates.io](https://img.shields.io/crates/v/vmw_backdoor.svg)](https://crates.io/crates/vmw_backdoor)
 [![Documentation](https://docs.rs/vmw_backdoor/badge.svg)](https://docs.rs/vmw_backdoor)
 
