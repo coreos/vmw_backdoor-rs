@@ -1,6 +1,6 @@
 [package]
 name = "vmw_backdoor"
-version = "0.2.2-alpha.0"
+version = "0.2.3"
 authors = ["Luca BRUNO <lucab@lucabruno.net>"]
 edition = "2018"
 license = "MIT/Apache-2.0"
