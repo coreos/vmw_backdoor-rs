@@ -19,10 +19,10 @@ thiserror = "^1.0"
 cc = "^1.0"
 
 [package.metadata.release]
-disable-publish = true
-disable-push = true
 post-release-commit-message = "cargo: development version bump"
 pre-release-commit-message = "cargo: release {{version}}"
+publish = false
+push = false
 sign-commit = true
 sign-tag = true
 tag-message = "release {{version}}"
