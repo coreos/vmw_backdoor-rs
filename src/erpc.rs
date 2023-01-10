@@ -25,7 +25,7 @@ const ERPC_CLOSE: u32 = 0x6;
 /// This can be acquired via [`BackdoorGuard::open_enhanced_chan`](struct.BackdoorGuard.html#method.open_enhanced_chan).
 #[derive(Debug)]
 pub struct EnhancedChan<'a> {
-    guard: &'a mut BackdoorGuard,
+    _guard: &'a mut BackdoorGuard,
     pub(crate) chan_id: u32,
     pub(crate) cookie1: u32,
     pub(crate) cookie2: u32,
@@ -56,7 +56,7 @@ impl<'a> EnhancedChan<'a> {
         }
 
         let ch = EnhancedChan {
-            guard,
+            _guard: guard,
             chan_id: res.edx,
             cookie1: res.esi,
             cookie2: res.edi,
