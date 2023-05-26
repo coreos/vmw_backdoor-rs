@@ -8,8 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  # Minimum supported Rust version (MSRV)
-  ACTION_MSRV_TOOLCHAIN: 1.39.0
   # Pinned toolchain for linting
   ACTION_LINTS_TOOLCHAIN: 1.69.0
 
@@ -48,10 +46,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Detect crate MSRV
+        run: |
+          msrv=$(cargo metadata --format-version 1 --no-deps | \
+              jq -r '.packages | .[].rust_version')
+          echo "Crate MSRV: $msrv"
+          echo "MSRV=$msrv" >> $GITHUB_ENV
       - name: Install toolchain
         uses: dtolnay/rust-toolchain@v1
         with:
-          toolchain: ${{ env['ACTION_MSRV_TOOLCHAIN']  }}
+          toolchain: ${{ env.MSRV }}
       - name: cargo build (release)
         run: cargo build --release
       - name: cargo test (release)
