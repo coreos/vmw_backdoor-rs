@@ -2,7 +2,8 @@
 name = "vmw_backdoor"
 version = "0.2.3"
 authors = ["Luca BRUNO <lucab@lucabruno.net>"]
-edition = "2018"
+edition = "2021"
+rust-version = "1.56.0"
 license = "MIT/Apache-2.0"
 repository = "https://github.com/coreos/vmw_backdoor-rs"
 documentation = "https://docs.rs/vmw_backdoor"
@@ -19,7 +20,6 @@ thiserror = "^1.0"
 cc = "^1.0"
 
 [package.metadata.release]
-post-release-commit-message = "cargo: development version bump"
 pre-release-commit-message = "cargo: release {{version}}"
 publish = false
 push = false
