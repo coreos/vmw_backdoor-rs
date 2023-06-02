@@ -1,10 +1,17 @@
 # Release notes
 
-## Upcoming vmw_backdoor 0.2.4 (unreleased)
+## Upcoming vmw_backdoor 0.2.5 (unreleased)
+
+Changes:
+
+
+
+## vmw_backdoor 0.2.4 (2023-06-01)
 
 Changes:
 
 - Require Rust ≥ 1.56.0
+- Support `errno` 0.3
 - Add release notes doc
 
 
