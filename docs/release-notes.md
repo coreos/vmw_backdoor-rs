@@ -4,6 +4,7 @@
 
 Changes:
 
+- Require Rust ≥ 1.66.0
 
 
 ## vmw_backdoor 0.2.4 (2023-06-01)
