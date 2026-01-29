@@ -3,7 +3,7 @@ name = "vmw_backdoor"
 version = "0.2.4"
 authors = ["Luca BRUNO <lucab@lucabruno.net>"]
 edition = "2021"
-rust-version = "1.66.0"
+rust-version = "1.85.0"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/coreos/vmw_backdoor-rs"
 documentation = "https://docs.rs/vmw_backdoor"
@@ -14,7 +14,7 @@ cfg-if = "^1.0"
 libc = "^0.2"
 errno = ">= 0.2, < 0.4"
 log = "^0.4"
-thiserror = "^1.0"
+thiserror = "^2.0"
 
 [build-dependencies]
 cc = "^1.0"

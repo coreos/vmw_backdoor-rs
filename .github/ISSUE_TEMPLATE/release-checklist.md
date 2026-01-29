@@ -84,22 +84,14 @@ Push access to the upstream repository is required in order to publish the new t
   - [ ] `git branch -d pre-release-${RELEASE_VER} release-${RELEASE_VER}`
 
 - Fedora packaging:
-  - [ ] update the `rust-vmw_backdoor` spec file in [Fedora](https://src.fedoraproject.org/rpms/rust-vmw_backdoor)
-    - bump the `Version`
-    - switch the `Release` back to `1%{?dist}`
-    - remove any patches obsoleted by the new release
-    - update changelog
-  - [ ] run `spectool -g -S rust-vmw_backdoor.spec`
-  - [ ] run `kinit your_fas_account@FEDORAPROJECT.ORG`
-  - [ ] run `fedpkg new-sources $(spectool -S rust-vmw_backdoor.spec | sed 's:.*/::')`
-  - [ ] PR the changes in [Fedora](https://src.fedoraproject.org/rpms/rust-vmw_backdoor)
-  - [ ] once the PR merges to rawhide, merge rawhide into the other relevant branches (e.g. f41) then push those, for example:
+  - [ ] Review the proposed changes in the PR submitted by Packit in [Fedora](https://src.fedoraproject.org/rpms/rust-vmw_backdoor/pull-requests).
+  - [ ] once the PR merges to rawhide, merge rawhide into the other relevant branches (e.g. f43) then push those, for example:
     ```bash
     git checkout rawhide
     git pull --ff-only
-    git checkout f41
+    git checkout f43
     git merge --ff-only rawhide
-    git push origin f41
+    git push origin f43
     ```
   - [ ] on each of those branches run `fedpkg build`
   - [ ] once the builds have finished, submit them to [bodhi](https://bodhi.fedoraproject.org/updates/new), filling in:
