@@ -89,7 +89,7 @@ impl BackdoorGuard {
     }
 
     /// Open channel for enhanced-RPC.
-    pub fn open_enhanced_chan(&mut self) -> Result<EnhancedChan, VmwError> {
+    pub fn open_enhanced_chan(&mut self) -> Result<EnhancedChan<'_>, VmwError> {
         EnhancedChan::open(self)
     }
 

@@ -219,7 +219,7 @@ impl<'a> EnhancedChan<'a> {
 
     /// Report agent (unmanaged) type.
     pub fn report_agent(&mut self) -> Result<(), VmwError> {
-        const TOOLS_VERSION_UNMANAGED: i32 = std::i32::MAX;
+        const TOOLS_VERSION_UNMANAGED: i32 = i32::MAX;
         let mut command = format!("tools.set.version {}", TOOLS_VERSION_UNMANAGED)
             .as_bytes()
             .to_vec();
